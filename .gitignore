@@ -1,0 +1,12 @@
+# Visual Studio user data
+.vs/
+
+# Build artifacts
+bin/
+obj/
+
+# Local user-specific project settings
+*.csproj.user
+
+# Development environment settings
+appsettings.Development.json
