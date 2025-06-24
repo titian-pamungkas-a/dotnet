@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace EmptyProject
 {
     public class Program
@@ -6,10 +8,10 @@ namespace EmptyProject
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllers();
-            //builder.Services.AddOpenApi();
             var app = builder.Build();
 
             app.MapGet("/", () => "Hello World!");
+            app.MapControllers();
 
             app.Run();
         }
