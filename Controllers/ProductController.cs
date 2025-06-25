@@ -1,7 +1,9 @@
-﻿using EmptyProject.Models;
+﻿using EmptyProject.DTO;
+using EmptyProject.Models;
 using EmptyProject.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace EmptyProject.Controllers
 {
@@ -25,10 +27,18 @@ namespace EmptyProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] Product product)
+        public ActionResult Post([FromBody] CreateShoeDTO shoeDTO)
         {
-            ProductService.AddProduct(product);
-            return CreatedAtAction(nameof(Get), new { id = product.Id, product});
+            Product? product;
+            if (shoeDTO == null)
+                return NotFound();
+            if (shoeDTO.Type.ToLower() == "shoe")
+            {
+                product = JsonSerializer.Deserialize<Product>(shoeDTO.Data.GetRawText());
+                ProductService.AddProduct(product);
+                return CreatedAtAction(nameof(Get), new { id = product.Id, product });
+            }
+            return NotFound();
         }
 
         [HttpPut("{id}")]
